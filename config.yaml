@@ -1,0 +1,216 @@
+# SE-RL Framework Configuration
+# ============================
+
+# Framework Configuration
+framework:
+  # LLM Configuration
+  llm:
+    model_name: "meta-llama/Llama-3.3-70B-Instruct"
+    max_tokens: 2048
+    temperature: 0.7
+    top_p: 0.9
+    max_retries: 3
+    code_validation: true
+  
+  # Training Parameters
+  training:
+    convergence_epsilon: 0.1
+    max_outer_iterations: 50
+    max_inner_iterations: 1000
+    learning_rate: 3e-4
+    batch_size: 64
+    gamma: 0.99
+    epsilon_start: 1.0
+    epsilon_end: 0.01
+    epsilon_decay: 0.995
+  
+  # Environment Parameters
+  environment:
+    static_env_weight: 0.5
+    dynamic_env_weight: 0.5
+    rebalance_iterations: 10
+    initial_capital: 1000000.0
+    transaction_cost: 0.001
+    slippage: 0.0005
+  
+  # DEK Parameters
+  dek:
+    instruction_buffer_size: 100
+    cache_replay_alpha: 0.1
+    lora_rank: 16
+    lora_alpha: 32
+  
+  # Hardware Configuration
+  hardware:
+    device: "auto"  # auto, cpu, cuda
+    num_gpus: 1
+    mixed_precision: true
+
+# Data Configuration
+data:
+  # Data Sources
+  sources:
+    - name: "csi100"
+      symbols:
+        - "000001.SZ"
+        - "000002.SZ"
+        - "000858.SZ"
+        - "002415.SZ"
+        - "002594.SZ"
+        - "300059.SZ"
+        - "300760.SZ"
+        - "600000.SH"
+        - "600036.SH"
+        - "600519.SH"
+        - "600887.SH"
+    
+    - name: "nasdaq100"
+      symbols:
+        - "AAPL"
+        - "MSFT"
+        - "GOOGL"
+        - "AMZN"
+        - "TSLA"
+        - "META"
+        - "NVDA"
+        - "NFLX"
+        - "ADBE"
+        - "CRM"
+        - "PYPL"
+        - "INTC"
+        - "AMD"
+        - "QCOM"
+        - "AVGO"
+  
+  # Time Parameters
+  time:
+    start_date: "2020-01-01"
+    end_date: "2024-01-01"
+    frequency: "1d"  # 1m, 5m, 15m, 1h, 1d
+  
+  # Feature Engineering
+  features:
+    window_size: 20
+    prediction_horizon: 5
+    normalize_method: "zscore"  # zscore, minmax, robust
+    scale_features: true
+  
+  # Data Processing
+  processing:
+    train_split: 0.7
+    val_split: 0.15
+    test_split: 0.15
+    cache_dir: "./data_cache"
+
+# LLM Component Generation
+llm_generation:
+  # Prompt Templates
+  prompts:
+    reward_function:
+      include_examples: true
+      include_chain_of_thought: true
+      max_examples: 3
+    
+    network_architecture:
+      include_examples: true
+      include_attention_mechanisms: true
+      include_residual_connections: true
+    
+    imagination_module:
+      include_examples: true
+      include_uncertainty_modeling: true
+      include_multiple_horizons: true
+  
+  # Code Validation
+  validation:
+    syntax_check: true
+    function_signature_check: true
+    import_check: true
+    complexity_limit: 1000
+
+# RL Training Configuration
+rl_training:
+  # Agent Architecture
+  agent:
+    actor_hidden_dims: [256, 128]
+    critic_hidden_dims: [256, 128]
+    activation: "relu"
+    dropout: 0.1
+  
+  # PPO Parameters
+  ppo:
+    epochs: 4
+    clip_ratio: 0.2
+    value_loss_coef: 0.5
+    entropy_coef: 0.01
+  
+  # SAC Parameters
+  sac:
+    alpha: 0.2
+    auto_alpha: true
+    target_entropy: -1.0
+  
+  # Environment Configuration
+  environments:
+    static:
+      max_steps: 1000
+      reward_scaling: 1.0
+    
+    dynamic:
+      num_agents: 3
+      agent_types: ["market_maker", "informed_trader", "noise_trader"]
+      order_book_depth: 10
+
+# Evaluation Configuration
+evaluation:
+  # Metrics
+  metrics:
+    - "PA"  # Price Advantage
+    - "WR"  # Win Ratio
+    - "GLR" # Gain-Loss Ratio
+    - "AFI" # Average Final Inventory
+    - "Sharpe" # Sharpe Ratio
+    - "MaxDD" # Maximum Drawdown
+  
+  # Evaluation Settings
+  settings:
+    eval_frequency: 100
+    eval_episodes: 50
+    confidence_interval: 0.95
+
+# Logging and Output
+logging:
+  level: "INFO"
+  format: "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
+  handlers:
+    - type: "file"
+      filename: "se_rl_framework.log"
+    - type: "console"
+  
+  # Experiment Tracking
+  experiment:
+    save_models: true
+    save_results: true
+    save_configs: true
+    generate_reports: true
+
+# Advanced Features
+advanced:
+  # Multi-GPU Training
+  distributed:
+    enabled: false
+    backend: "nccl"
+    world_size: 1
+  
+  # Model Checkpointing
+  checkpointing:
+    save_frequency: 1000
+    keep_last_n: 5
+    save_optimizer: true
+  
+  # Hyperparameter Optimization
+  hyperopt:
+    enabled: false
+    n_trials: 100
+    timeout: 3600
+    metric: "PA" 
