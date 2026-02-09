@@ -514,11 +514,11 @@ else:
 If you use this code in your research, please cite:
 
 ```bibtex
-@article{serl2024,
+@article{serl2026,
   title={Large Language Model (LLM) as an Excellent Reinforcement Learning Researcher in both Single Agent and Multi-Agent Scenarios},
   author={Anonymous},
-  journal={KDD},
-  year={2024}
+  journal={KDD Submission},
+  year={2026}
 }
 ```
 
